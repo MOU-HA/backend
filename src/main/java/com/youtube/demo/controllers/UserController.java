@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youtube.demo.model.User;
 import com.youtube.demo.service.UserService;
-import com.youtube.demo.util.QuryResult;
 import com.youtube.demo.util.RestResponse;
 
 @RestController
@@ -27,14 +26,11 @@ public class UserController {
 	
 	protected ObjectMapper mapper;
 	
-	
-	
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	public RestResponse saveOrUpdate(@RequestBody String userJson) 
 			throws JsonParseException, JsonMappingException, IOException {
 		
-		this.mapper = new ObjectMapper();
-		
+		this.mapper = new ObjectMapper();		
 		User user = this.mapper.readValue(userJson, User.class);
 		
 		if(!this.validate(user)) {
@@ -47,6 +43,16 @@ public class UserController {
 	@RequestMapping(value = "/getUsers", method = RequestMethod.GET)
 	public List<User> getUsers () {
 		return this.userService.findAll();		 
+	}
+	
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+	public void deletUser(@RequestBody String userJson) throws Exception {
+		this.mapper = new ObjectMapper();		
+		User user = this.mapper.readValue(userJson, User.class);
+		if(user.getId()==null) {
+			throw new Exception("Identifient utilisateur null");
+		}		
+		this.userService.deleteUser(user.getId());		
 	}
 	
 	private boolean validate(User user){

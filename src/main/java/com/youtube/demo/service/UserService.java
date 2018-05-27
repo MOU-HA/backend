@@ -18,5 +18,12 @@ public interface UserService {
 	 * @return leste des utilisateurs
 	 */
 	List<User> findAll();
+	
+	/**
+	 * Supprimer un utilisateur 
+	 * @param id
+	 */
+	
+	void deleteUser(Long id);
 
 }
