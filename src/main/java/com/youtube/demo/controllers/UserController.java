@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,7 @@ public class UserController {
 	
 	protected ObjectMapper mapper;
 	
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	public RestResponse saveOrUpdate(@RequestBody String userJson) 
 			throws JsonParseException, JsonMappingException, IOException {
@@ -40,11 +42,13 @@ public class UserController {
 		return new RestResponse(HttpStatus.OK.value(),"Modification ffectuée avec succès");
 	}
 	
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/getUsers", method = RequestMethod.GET)
 	public List<User> getUsers () {
 		return this.userService.findAll();		 
 	}
 	
+	@CrossOrigin(origins = "*")	
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
 	public void deletUser(@RequestBody String userJson) throws Exception {
 		this.mapper = new ObjectMapper();		
